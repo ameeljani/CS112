@@ -1,0 +1,26 @@
+package Project;
+
+public class Point {
+	
+	private int x;
+	
+	private int y;
+	
+	public Point (int num1, int num2)
+	{
+		x=num1;
+		y=num2;
+	}
+	public int getx()
+	{
+		return x;
+	}
+	public int gety()
+	{
+		return y;
+	}
+	
+	
+	
+
+}

@@ -1,0 +1,181 @@
+package friends;
+
+import java.util.ArrayList;
+
+import structures.Queue;
+import structures.Stack;
+
+public class Friends {
+
+	/**
+	 * Finds the shortest chain of people from p1 to p2.
+	 * Chain is returned as a sequence of names starting with p1,
+	 * and ending with p2. Each pair (n1,n2) of consecutive names in
+	 * the returned chain is an edge in the graph.
+	 * 
+	 * @param g Graph for which shortest chain is to be found.
+	 * @param p1 Person with whom the chain originates
+	 * @param p2 Person at whom the chain terminates
+	 * @return The shortest chain from p1 to p2. Null or empty array list if there is no
+	 *         path from p1 to p2
+	 */
+	public static ArrayList<String> shortestChain(Graph g, String p1, String p2) {
+		
+		if (g==null)
+		{
+			return null;
+		}
+		if (p1==null||p2==null)
+		{
+			return null;
+		}
+		if (p1.isEmpty()==true||p2.isEmpty()==true)
+		{
+			return null;
+		}
+		if (g.map.containsKey(p1)==false || g.map.containsKey(p2)==false)
+		{
+			return null;
+		}
+		if (p1.equals(p2))
+		{
+			ArrayList<String>result1= new ArrayList<String>();
+			result1.add(p1);
+			return result1;
+		}
+		
+		ArrayList<String>result= new ArrayList<String>();
+		
+        boolean [] marked=new boolean[g.members.length];
+		
+		for (int x=0; x<marked.length;x++)
+		{
+			marked[x]=false;
+		}
+		
+		
+		
+		
+		
+		
+		
+		return null;
+	}
+	
+	/**
+	 * Finds all cliques of students in a given school.
+	 * 
+	 * Returns an array list of array lists - each constituent array list contains
+	 * the names of all students in a clique.
+	 * 
+	 * @param g Graph for which cliques are to be found.
+	 * @param school Name of school
+	 * @return Array list of clique array lists. Null or empty array list if there is no student in the
+	 *         given school
+	 */
+	public static ArrayList<ArrayList<String>> cliques(Graph g, String school) {
+		
+		if (school==null||g==null)
+		{
+			return null;
+		}
+		if (school.isEmpty()==true)
+		{
+			return null;
+		}
+		
+		ArrayList<ArrayList<String>>master=new ArrayList<ArrayList<String>>();
+		
+		boolean [] marked=new boolean[g.members.length];
+		
+		for (int x=0; x<marked.length;x++)
+		{
+			marked[x]=false;
+		}
+		
+		//driver
+		
+		for (Person member: g.members)
+		{
+			if (member.school==null)
+			{
+				continue;
+			}
+			if(marked[g.map.get(member.name)]==false && member.school.equals(school))
+			{
+				ArrayList<String>clique=BFS(member,marked,g,school);
+				master.add(clique);
+			}
+		}
+		
+		
+		
+		return master;
+		
+	}
+	
+	/**
+	 * Finds and returns all connectors in the graph.
+	 * 
+	 * @param g Graph for which connectors needs to be found.
+	 * @return Names of all connectors. Null or empty array list if there are no connectors.
+	 */
+	public static ArrayList<String> connectors(Graph g) {
+		
+		/** COMPLETE THIS METHOD **/
+		
+		// FOLLOWING LINE IS A PLACEHOLDER TO MAKE COMPILER HAPPY
+		// CHANGE AS REQUIRED FOR YOUR IMPLEMENTATION
+		return null;
+		
+	}
+	
+	private static ArrayList<String>BFS(Person member,boolean[]marked, Graph g2,String target)
+	{
+		ArrayList<String>clique=new ArrayList<String>();
+		
+		Queue<Person>q1= new Queue<Person>();
+		
+		int first=g2.map.get(member.name);
+		marked[first]=true;
+		
+		clique.add(member.name);
+		q1.enqueue(member);
+		
+		while(q1.isEmpty()==false)
+		{
+			Person w=q1.dequeue();
+			
+			//Friend=neighbor here
+			
+			for (Friend p=w.first;p!=null;p=p.next)
+			{
+				Person nameoffriend=g2.members[p.fnum];
+				
+				if (marked[p.fnum]==false && nameoffriend.school!=null && nameoffriend.school.equals(target))
+				{
+					marked[p.fnum]=true;
+					q1.enqueue(p);
+					clique.add(g2.members[p.fnum].name);
+					
+				}
+				
+			}
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return clique;
+	}
+}
+

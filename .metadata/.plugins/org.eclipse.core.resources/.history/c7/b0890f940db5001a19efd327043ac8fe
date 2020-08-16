@@ -1,0 +1,375 @@
+package Project;
+
+import Project.Piece;
+import Project.Point;
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.io.*;
+
+public class HelperCh {
+	
+	HashMap<Piece,ArrayList<Point>> moveshm;
+	
+	ArrayList<Piece>pieces;
+	
+	
+	public void loadvals()
+	{
+		
+	}
+	private char translatey(int y)
+	{
+		char cord = 0;
+		
+		if(y==0)
+		{
+			cord='A';
+		}
+		if(y==1)
+		{
+			cord='B';
+		}
+		if(y==2)
+		{
+			cord='C';
+		}
+		if(y==3)
+		{
+			cord='D';
+		}
+		if(y==4)
+		{
+			cord='E';
+		}
+		if(y==5)
+		{
+			cord='F';
+		}
+		if(y==6)
+		{
+			cord='G';
+		}
+		if(y==7)
+		{
+			cord='H';
+		}
+		
+		
+		
+		return cord;
+	}
+	
+	public void moves()
+	{
+        
+        
+        for (int i=0; i<pieces.size();i++)
+        {
+            ArrayList<Point> ans= new ArrayList<Point>();
+        	Piece pieceinquestion=pieces.get(i);
+        	int x=pieces.get(i).getLocation().getx();
+    		int y=pieces.get(i).getLocation().gety();
+    		
+        	if (pieces.get(i).getType()=="rook")
+        	{
+        	
+        		
+        		for (int a=x;a<8;a++)
+        		{
+        			boolean inputcheck=true;
+        			int count;
+        			for (count=0; count<pieces.size();count++)
+        			{
+        				if(pieces.get(count).getLocation().matches(a, y) )
+        				{
+        					inputcheck=false;
+        				}
+        			}
+        			
+        			if(inputcheck==true)
+        			{
+        				Point ptr= new Point(a,y);
+        				ans.add(ptr);
+        			}
+        			else if(inputcheck==false && (pieces.get(count).getside().equals(pieceinquestion.getside())==false))
+        			{
+        				Point ptr= new Point(a,y);
+        				ans.add(ptr);
+        			}
+        			else
+        			{
+        				break;
+        			}
+        			
+        			
+        		}
+        		for (int b=x;b>=0;b--)
+        		{
+        			boolean inputcheck=true;
+        			int count;
+        			for (count=0; count<pieces.size();count++)
+        			{
+        				if(pieces.get(count).getLocation().matches(b, y) )
+        				{
+        					inputcheck=false;
+        				}
+        			}
+        			
+        			if(inputcheck==true)
+        			{
+        				Point ptr= new Point(b,y);
+        				ans.add(ptr);
+        			}
+        			else if(inputcheck==false && (pieces.get(count).getside().equals(pieceinquestion.getside())==false))
+        			{
+        				Point ptr= new Point(b,y);
+        				ans.add(ptr);
+        			}
+        			else
+        			{
+        				break;
+        			}
+        		}
+        		for (int c=y;c<8;c++)
+        		{
+        			boolean inputcheck=true;
+        			int count;
+        			for (count=0; count<pieces.size();count++)
+        			{
+        				if(pieces.get(count).getLocation().matches(x, c) )
+        				{
+        					inputcheck=false;
+        				}
+        			}
+        			
+        			if(inputcheck==true)
+        			{
+        				Point ptr= new Point(x,c);
+        				ans.add(ptr);
+        			}
+        			else if(inputcheck==false && (pieces.get(count).getside().equals(pieceinquestion.getside())==false))
+        			{
+        				Point ptr= new Point(x,c);
+        				ans.add(ptr);
+        			}
+        			else
+        			{
+        				break;
+        			}
+        		}
+        		for (int d=y;d>=0;d--)
+        		{
+        			boolean inputcheck=true;
+        			int count;
+        			for (count=0; count<pieces.size();count++)
+        			{
+        				if(pieces.get(count).getLocation().matches(x, d) )
+        				{
+        					inputcheck=false;
+        				}
+        			}
+        			
+        			if(inputcheck==true)
+        			{
+        				Point ptr= new Point(x,d);
+        				ans.add(ptr);
+        			}
+        			else if(inputcheck==false && (pieces.get(count).getside().equals(pieceinquestion.getside())==false))
+        			{
+        				Point ptr= new Point(x,d);
+        				ans.add(ptr);
+        			}
+        			else
+        			{
+        				break;
+        			}
+        		}
+        	
+        		
+        		
+        	}
+        	if (pieceinquestion.getType()=="bishop")
+        	{
+        		
+        		int a=x;
+        		int b=y;
+        		
+        		while((a>=0 && a<8) && (b>=0 && b<8))
+        		{
+        			boolean check=true;
+        			
+        			for (int j=0; j<pieces.size();j++)
+        			{
+        				if(pieces.get(j).getLocation().matches(a, b))
+        				{
+        					if(pieceinquestion.getside().equals(pieces.get(j).getside())==false)
+        					{
+        						Point ptr= new Point(a,b);
+        						ans.add(ptr);
+        					}
+        					check=false;
+        					break;
+        					
+        				}
+        			}
+        			
+        			if(check=false)
+        			{
+        				break;
+        			}
+        			
+        			Point ptr= new Point(a,b);
+        			ans.add(ptr);
+        			
+        			a++;
+        			b++;
+        		}
+        		
+        		while((a>=0 && a<8) && (b>=0 && b<8))
+        		{
+        			
+        			
+        			a--;
+        			b--;
+        		}
+        		
+        		while((a>=0 && a<8) && (b>=0 && b<8))
+        		{
+        			a++;
+        			b--;
+        		}
+        		
+        		while((a>=0 && a<8) && (b>=0 && b<8))
+        		{
+        			a--;
+        			b++;
+        		}
+        		
+        		
+        		
+        		
+        	}
+        	if (pieceinquestion.getType()=="pawn")
+        	{
+        		
+        		if((y+1>=0 && y+1<8))
+        		{
+        			boolean check1=true;
+        			for (int w=0;w<pieces.size();w++)
+        			{
+        				if(pieces.get(w).getLocation().matches(x, y+1))
+        				{
+        					check1=false;
+        					break;
+        				}
+        			}
+        			if(check1==true)
+        			{
+        			Point ptr1= new Point(x,y+1);
+        			ans.add(ptr1);
+        			
+        			}
+        		}
+        		
+        		if((x+1>=0 && x+1<8))
+        		{
+        			if((y+1>=0 && y+1<8))
+            		{
+        				boolean check2=true;
+            			for (int w=0;w<pieces.size();w++)
+            			{
+            				if(pieces.get(w).getLocation().matches(x+1, y+1)  && pieces.get(w).getside().equals(pieceinquestion.getside())==false )
+            				{
+            					check2=false;
+            					break;
+            				}
+            			}
+            			if(check2==true)
+            			{
+            			Point ptr2= new Point(x+1,y+1);
+            			ans.add(ptr2);
+            			}
+            			
+            				
+            		}
+        		}
+        		if((x-1>=0 && x-1<8))
+        		{
+        			if((y+1>=0 && y+1<8))
+            		{
+        				boolean check3=true;
+            			for (int w=0;w<pieces.size();w++)
+            			{
+            				if(pieces.get(w).getLocation().matches(x-1, y+1)  && pieces.get(w).getside().equals(pieceinquestion.getside())==false )
+            				{
+            					check3=false;
+            					break;
+            				}
+            			}
+            			if(check3==true)
+            			{
+            			Point ptr3= new Point(x-1,y+1);
+            			ans.add(ptr3);
+            			}
+            		}
+        		
+        		
+        		
+        		}
+        		
+        		
+       	
+        		 
+        	}
+        	if (pieces.get(i).getType()=="knight")
+        	{
+        		
+        	}
+        	if (pieces.get(i).getType()=="queen")
+        	{
+        		
+        	}
+        	if (pieces.get(i).getType()=="king")
+        	{
+        		Point ptr1= new Point(x-1,y+1);
+        		Point ptr2= new Point(x-1,y+1);
+        		Point ptr3= new Point(x-1,y+1);
+        		Point ptr4= new Point(x-1,y+1);
+        		Point ptr5= new Point(x-1,y+1);
+        		Point ptr6= new Point(x-1,y+1);
+        		Point ptr7= new Point(x-1,y+1);
+        		Point ptr8= new Point(x-1,y+1);
+        	}
+        
+        
+        moveshm.put(pieceinquestion,ans);
+        
+        
+        
+        }
+		
+		
+		
+		
+	}
+	
+	public ArrayList<Integer> piecesafety(Piece p)
+	{
+        ArrayList<Integer> ans= new ArrayList<Integer>();
+		
+		
+		
+		return ans;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+
+}

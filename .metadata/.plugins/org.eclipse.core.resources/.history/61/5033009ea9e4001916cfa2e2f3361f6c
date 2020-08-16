@@ -1,0 +1,31 @@
+
+
+
+package first;
+import java.util.Scanner;
+
+public class Gas {
+
+	public static void main(String[] args) {
+
+		Scanner sc= new Scanner(System.in);
+		int number= sc.nextInt();
+		int count=number;
+		int sevens=0;
+
+		while(Math.abs(count)>0)
+		{
+	       if (count%10==7)
+	       {
+	       	sevens=sevens+1;
+	       }
+
+	       count=count/10;
+		}
+	 
+	    System.out.println(sevens);
+	   
+
+
+	    }
+}

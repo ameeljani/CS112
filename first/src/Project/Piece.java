@@ -1,0 +1,65 @@
+package Project;
+
+public class Piece {
+	
+	private String type;
+	
+	private String side;
+	
+	private int value;
+	
+	private Point location;
+	
+	
+	public Piece(String type2,String side2, Point location2)
+	{
+		type=type2;
+		side=side2;
+		location=location2;
+		
+		if(type=="rook")
+		{
+			value=5;
+		}
+		if(type=="knight")
+		{
+			value=3;
+		}
+		if(type=="bishop")
+		{
+			value=3;
+		}
+		if(type=="pawn")
+		{
+			value=1;
+		}
+		if(type=="queen")
+		{
+			value=9;
+		}
+		if(type=="king")
+		{
+			value=0;
+		}
+		
+	}
+	
+	public String getType()
+	{
+		return type;
+	}
+	public String getside()
+	{
+		return side;
+	}
+	public int getValue()
+	{
+		return value;
+	}
+	public Point getLocation()
+	{
+		return location;
+	}
+	
+
+}

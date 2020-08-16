@@ -1,0 +1,70 @@
+package first;
+
+
+public class Gas {
+
+    public static void main(String[] args) {
+
+	int age=Integer.parseInt(args[0]);
+	boolean locationofpurchase=Boolean.parseBoolean(args[1]);
+	double price;
+
+	if (age>=0 && age<=120)
+	{
+       if (age<7)
+       {
+         price=0.00;
+         System.out.println(price);
+       }
+       else
+       {
+           if (age>65)
+           {
+               if (locationofpurchase==true)
+               {
+               	price=7.50;
+               	System.out.println(price);
+               }
+               else if (locationofpurchase==false)
+               {
+               	price=7.50*1.20;
+               	System.out.println(price);
+               }
+               else
+               {
+               	System.out.println("Illegal input");
+               }
+           }
+           else
+           {
+              if (locationofpurchase==true)
+               {
+               	price=13.20;
+               	System.out.println(price);
+               }
+               else if (locationofpurchase==false)
+               {
+               	price=13.20*1.20;
+               	System.out.println(price);
+               }
+               else
+               {
+               	System.out.println("Illegal input");
+               }
+           }
+       }
+
+
+
+	}
+    else
+    {
+    	System.out.println("Illegal input");
+    }
+
+
+
+    }
+
+}
+

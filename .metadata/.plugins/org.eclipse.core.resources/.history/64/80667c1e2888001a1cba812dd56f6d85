@@ -1,0 +1,413 @@
+package friends;
+
+import java.util.ArrayList;
+
+import structures.Queue;
+import structures.Stack;
+
+public class Friends {
+
+	/**
+	 * Finds the shortest chain of people from p1 to p2.
+	 * Chain is returned as a sequence of names starting with p1,
+	 * and ending with p2. Each pair (n1,n2) of consecutive names in
+	 * the returned chain is an edge in the graph.
+	 * 
+	 * @param g Graph for which shortest chain is to be found.
+	 * @param p1 Person with whom the chain originates
+	 * @param p2 Person at whom the chain terminates
+	 * @return The shortest chain from p1 to p2. Null or empty array list if there is no
+	 *         path from p1 to p2
+	 */
+	public static ArrayList<String> shortestChain(Graph g, String p1, String p2) {
+		
+		if (g==null)
+		{
+			return null;
+		}
+		if (p1==null||p2==null)
+		{
+			return null;
+		}
+		if (p1.isEmpty()==true||p2.isEmpty()==true)
+		{
+			return null;
+		}
+		if (g.map.containsKey(p1)==false || g.map.containsKey(p2)==false)
+		{
+			return null;
+		}
+		if (p1.equals(p2))
+		{
+			ArrayList<String>result1= new ArrayList<String>();
+			result1.add(p1);
+			return result1;
+		}
+		
+		ArrayList<String>result= new ArrayList<String>();
+		
+        boolean [] marked=new boolean[g.members.length];
+		
+		for (int x=0; x<marked.length;x++)
+		{
+			marked[x]=false;
+		}
+		
+		Queue<Person>bfsq= new Queue<Person>();
+		
+		int first=g.map.get(p1);
+		
+		marked[first]=true;
+		
+		bfsq.enqueue(g.members[first]);
+		
+		Person [] prev=new Person[g.members.length];
+		
+		boolean breakouter=false;
+		
+		Person p2start=null;
+		
+		while(bfsq.isEmpty()==false)
+		{
+			
+			Person w=bfsq.dequeue();
+			//edge True-fixed
+			int windex=g.map.get(w.name);
+			
+			marked[windex]=true;
+			
+			for (Friend p=w.first; p!=null;p=p.next)
+			{
+				String friendname=g.members[p.fnum].name;
+				
+				if(!(marked[p.fnum]))
+				{
+					marked[p.fnum]=true;
+					bfsq.enqueue(g.members[p.fnum]);
+					prev[p.fnum]=w;
+					
+					String pname=g.members[p.fnum].name;
+					if(p2.equals(pname))
+					{
+						p2start=g.members[p.fnum];
+						breakouter=true;
+						break;
+					}
+
+					
+				}
+				
+			}
+			
+			if(breakouter==true)
+			{
+				break;
+			}
+			
+		}
+		
+		if (breakouter==false)
+		{
+			return null;
+		}
+		
+		else
+		{
+			while(p2start.name.equals(p1)==false)
+			{
+				result.add(p2start.name);
+				p2start=prev[g.map.get(p2start.name)];
+			}
+			
+			ArrayList<String>result2=new ArrayList<String>();
+			result.add(p1);
+			for (int i=result.size()-1;i>=0;i--)
+			{
+				result2.add(result.get(i));
+			}
+		
+		
+		return result2;
+		}
+		
+		
+		
+		
+	}
+	
+	/**
+	 * Finds all cliques of students in a given school.
+	 * 
+	 * Returns an array list of array lists - each constituent array list contains
+	 * the names of all students in a clique.
+	 * 
+	 * @param g Graph for which cliques are to be found.
+	 * @param school Name of school
+	 * @return Array list of clique array lists. Null or empty array list if there is no student in the
+	 *         given school
+	 */
+	public static ArrayList<ArrayList<String>> cliques(Graph g, String school) {
+		
+		if (school==null||g==null)
+		{
+			return null;
+		}
+		if (school.isEmpty()==true)
+		{
+			return null;
+		}
+		
+		ArrayList<ArrayList<String>>master=new ArrayList<ArrayList<String>>();
+		
+		boolean [] marked=new boolean[g.members.length];
+		
+		for (int x=0; x<marked.length;x++)
+		{
+			marked[x]=false;
+		}
+		
+		//driver
+		
+		for (Person member: g.members)
+		{
+			if (member.school==null)
+			{
+				continue;
+			}
+			if(marked[g.map.get(member.name)]==false && member.school.equals(school))
+			{
+				ArrayList<String>clique=BFS(member,marked,g,school);
+				master.add(clique);
+			}
+		}
+		
+		if(master.isEmpty()==true||master.get(0).isEmpty()==true)
+		{
+			return new ArrayList<ArrayList<String>>();
+		}
+		
+		
+		return master;
+		
+	}
+	
+	/**
+	 * Finds and returns all connectors in the graph.
+	 * 
+	 * @param g Graph for which connectors needs to be found.
+	 * @return Names of all connectors. Null or empty array list if there are no connectors.
+	 */
+	public static ArrayList<String> connectors(Graph g) {
+		
+		if(g==null)
+		{
+			return null;
+		}
+		
+		boolean [] visited= new boolean[g.members.length];
+		int [] dfsnum= new int[g.members.length];
+		int [] backnums= new int[g.members.length];
+		ArrayList<String>rear=new ArrayList<String>();
+		ArrayList<String>result=new ArrayList<String>();
+		
+		for (int v=0; v < visited.length; v++) {
+			 visited[v] = false;
+		 }
+		
+		for (int v=0; v < visited.length; v++) {
+			 if (!visited[v]) {
+				 
+				 DFSAL(v, visited);
+			 
+			 }
+		 }
+		
+		
+		
+		
+		for (int i=0;i<g.members.length;i++)
+		{
+			Person person=g.members[i];
+			
+			if(person.first.next==null)
+			{
+				Friend firstf=person.first;
+				if(result.contains(g.members[firstf.fnum].name)==false)
+				{
+					result.add(g.members[firstf.fnum].name);
+				}
+				else
+				{
+					continue;
+				}
+			}
+		}
+		
+		for (int x=0; x<result.size();x++)
+		{
+			Friend f1= g.members[g.map.get(result.get(x))].first;
+			int edges=0;
+			for (Friend p=f1;p!=null;p=p.next)
+			{
+				edges=edges+1;
+			}
+			
+			if (edges==1||edges==0)
+			{
+				result.remove(x);
+			}
+			
+		}
+		
+		if(result.isEmpty()==true)
+		{
+			return null;
+		}
+		else
+		{
+			return result;
+		}
+		
+		
+		
+		
+	}
+	
+	private static ArrayList<String>BFS(Person member,boolean[]marked, Graph g2,String target)
+	{
+		ArrayList<String>clique=new ArrayList<String>();
+		
+		Queue<Person>q1= new Queue<Person>();
+		
+		int first=g2.map.get(member.name);
+		marked[first]=true;
+		
+		clique.add(member.name);
+		q1.enqueue(member);
+		
+		while(q1.isEmpty()==false)
+		{
+			Person w=q1.dequeue();
+			
+			//Friend=neighbor here
+			
+			for (Friend p=w.first;p!=null;p=p.next)
+			{
+				Person nameoffriend=g2.members[p.fnum];
+				
+				if (marked[p.fnum]==false && nameoffriend.school!=null && nameoffriend.school.equals(target) )
+				{
+					marked[p.fnum]=true;
+					q1.enqueue(g2.members[p.fnum]);
+				    clique.add(g2.members[p.fnum].name);
+					
+					
+				}
+				
+				
+			}
+			
+			
+			
+		}
+		
+		if(clique.isEmpty())
+		{
+			return null;
+		}
+		
+		
+		
+		
+		
+		
+		return clique;
+	}
+	
+	private static ArrayList<String> DFSAL(ArrayList<String> result, ArrayList<String> rear, boolean check,int [] storage, int v1, Person firstp,boolean[]marked,int[]dfsnum,int[]back, Graph g2)
+	{
+		
+		
+		marked[g2.map.get(firstp.name)]=true;
+		
+		int num=0;
+		int numback=0;
+		int numback2=0;
+		int numback3=0;
+		
+		
+		dfsnum[g2.map.get(firstp.name)]=storage[0];
+		
+		back[g2.map.get(firstp.name)]=storage[1];
+		
+		for(Friend Neighborclass=firstp.first;Neighborclass!=null;Neighborclass=Neighborclass.next)
+		{
+			if(!marked[Neighborclass.fnum])
+			{
+				storage[0]=storage[0]+1;
+				storage[1]=storage[1]+1;
+				
+				Person p2=g2.members[Neighborclass.fnum];
+				
+				//result=DFSAL(result,rear,false,storage,);
+				
+				if(dfsnum[g2.map.get(firstp.name)]<=back[Neighborclass.fnum])
+				{
+					if (result.contains(firstp.name)==false && (check==false || rear.contains(firstp.name) ))
+					{
+						result.add(firstp.name);
+					}
+				}
+				else
+				{
+					num=back[g2.map.get(firstp.name)];
+					
+					numback=back[Neighborclass.fnum];
+					
+					int index=g2.map.get(firstp.name);
+					
+					if(num<numback)
+					{
+						back[index]=num;
+					}
+					else
+					{
+						back[index]=numback;
+					}
+
+				}
+				
+				rear.add(firstp.name);
+					
+			}
+			
+			else
+			{
+			
+			
+				numback3=dfsnum[Neighborclass.fnum];
+				
+				numback2=back[g2.map.get(firstp.name)];
+				
+				int index2=g2.map.get(firstp.name);
+				
+				if(numback2>=numback3)
+				{
+					back[index2]=numback3;
+				}
+				else
+				{
+					back[index2]=numback2;
+				}
+			}
+		}
+		
+		return result;
+		
+		
+		
+	}
+	
+	
+}
+

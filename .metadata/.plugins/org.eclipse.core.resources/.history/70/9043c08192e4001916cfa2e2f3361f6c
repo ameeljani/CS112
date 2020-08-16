@@ -1,0 +1,43 @@
+package first;
+
+public class Gas {
+
+    public static void main(String[] args) {
+
+	double price_per_gallon=Double.parseDouble(args[0]);
+	double number_of_gallons_purchased=Double.parseDouble(args[1]);
+	boolean cash_or_credit=Boolean.parseBoolean(args[2]);
+
+	double cost=0.0;
+
+	if (number_of_gallons_purchased>0 && price_per_gallon>0)
+	{
+       if (cash_or_credit==true)
+       {
+         cost= price_per_gallon*number_of_gallons_purchased;
+         System.out.println(cost);
+       }
+       else if (cash_or_credit==false)
+       {
+         cost= price_per_gallon*number_of_gallons_purchased*1.10;
+         System.out.println(cost);
+       }
+       else
+       {
+       	 System.out.println("Illegal input");
+       }
+	}
+	else
+	{
+		System.out.println("Illegal input");
+	}
+    
+
+
+
+
+
+    }
+}
+
+}

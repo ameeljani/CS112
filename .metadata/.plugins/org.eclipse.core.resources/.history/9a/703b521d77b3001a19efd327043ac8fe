@@ -1,0 +1,42 @@
+package Project;
+
+import Project.Piece;
+import java.util.ArrayList;
+import java.io.*;
+
+public class HelperCh {
+	
+	
+	
+	
+	public void loadvals()
+	{
+		
+	}
+	
+	public ArrayList<String> moves()
+	{
+       ArrayList<String> ans= new ArrayList<String>();
+		
+		
+		
+		return ans;
+	}
+	
+	public ArrayList<Integer> piecesafety()
+	{
+        ArrayList<Integer> ans= new ArrayList<Integer>();
+		
+		
+		
+		return ans;
+		
+	}
+	
+	
+	
+	
+	
+	
+
+}

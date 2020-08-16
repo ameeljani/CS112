@@ -1,0 +1,50 @@
+package first;
+
+public class Gas {
+
+    public static void main(String[] args) {
+
+	int hours= Integer.parseInt (args[0]);
+
+	if (hours==0)
+	{
+		System.out.println("Nothing");
+	}
+
+	else if (hours>=1 && hours<=5)
+	{
+		System.out.println("T-shirt");
+	}
+
+	else if (hours>=6 && hours<=400)
+	{
+       if (hours%10==9)
+       {
+       	System.out.println("Laptop");
+       }
+
+       if (hours%2==0)
+       {
+       	System.out.println("Hat");
+       }
+       if (hours%3==0)
+       {
+       	System.out.println("TV");
+       }
+	}
+
+	else if (hours>400)
+	{
+      System.out.println("Cat");
+	}
+	else
+	{
+		System.out.println("Illegal input");
+	}
+
+
+
+    }
+
+}
+

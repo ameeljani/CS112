@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Evaluator.java&apos; to &apos;Expression Evaluation Ameel/src/app&apos;&#x0A;- Original project: &apos;Expression Evaluation&apos;&#x0A;- Destination element: &apos;Expression Evaluation Ameel/src/app&apos;&#x0A;- Original element: &apos;app.Evaluator.java&apos;" description="Copy compilation unit" destination="=Expression Evaluation Ameel/src&lt;app" element1="/src&lt;app{Evaluator.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1583605273127" units="1" version="1.0"/>
+</session>
